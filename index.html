@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>A Leaflet map!</title>
+    <!-- <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" /> -->
+    <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+    <!-- <script src="node_modules/leaflet/dist/leaflet.js"></script> -->
+    <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+    <script src="node_modules/leaflet.polyline.snakeanim/L.Polyline.SnakeAnim.js"></script>
+    <script src="node_modules/leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js"></script>
+    <style>
+    #mapid {
+        height: 625px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="mapid"></div>
+    <script>
+    var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        minZoom: 1,
+        maxZoom: 18,
+    }).addTo(mymap);
+
+    // Markers
+    // Paris
+    var paris_marker = L.marker([48.8588, 2.3470]);
+    // Nantes
+    var nantes_marker = L.marker([47.2383, -1.5603]);
+    // Lyon
+    var lyon_marker = L.marker([45.7577, 4.8350]);
+    // Vallon-Pont-D'arc
+    var vallon_marker = L.marker([44.3983, 4.4024]);
+    // Montpellier
+    var montpellier_marker = L.marker([43.6100, 3.8742]);
+    // Bayonne
+    var bayonne_marker = L.marker([43.4844, -1.4612]);
+    // Chambéry
+    var chambery_marker = L.marker([45.5823, 5.9064]);
+    // Munich
+    var munich_marker = L.marker([48.1550, 11.5418]);
+    // Liberec
+    var munich_marker = L.marker([50.7662, 15.0499]);
+    // Prague
+    var prague_marker = L.marker([50.0598, 14.4656]);
+
+    // Lines
+    // Paris to Nantes
+    var paris_nantes = L.polygon([
+        [48.8588, 2.3470],
+        [47.2383, -1.5603]
+    ]);
+    // Nantes to Lyon
+    var nantes_lyon = L.polygon([
+        [47.2383, -1.5603],
+        [45.7577, 4.8350]
+    ]);
+    // Lyon to Vallon-Pont-D'arc
+    var lyon_vallon = L.polygon([
+        [45.7577, 4.8350],
+        [44.3983, 4.4024]
+    ]);
+    // Vallon-Pont-D'arc to Montpellier through Alès
+    var vallon_montpellier = L.polygon([
+        [44.3983, 4.4024],
+        [43.6100, 3.8742]
+    ]);
+    // Montpellier to Bayonne
+    var montpellier_bayonne = L.polygon([
+        [43.6100, 3.8742],
+        [43.4844, -1.4612]
+    ]);
+    // Bayonne to Chambéry
+    var bayonne_chambery = L.polygon([
+        [43.4844, -1.4612],
+        [45.5823, 5.9064]
+    ]);
+    // Chambéry to Paris
+    var chambery_paris = L.polygon([
+        [45.5823, 5.9064],
+        [48.8588, 2.3470]
+    ]);
+    // Paris to Munich
+    var paris_munich = L.polygon([
+        [48.8588, 2.3470],
+        [48.1550, 11.5418]
+    ]);
+    // Munich to Prague
+    var munich_prague = L.polygon([
+        [48.1550, 11.5418],
+        [50.0598, 14.4656]
+    ]);
+    // Prague to Paris
+    var prague_paris = L.polygon([
+        [50.0598, 14.4656],
+        [48.8588, 2.3470]
+    ]);
+
+    setTimeout(function() {
+        paris_marker.bounce(3).addTo(mymap);
+        paris_marker.bindPopup("Paris").openPopup();
+    }, 0);
+
+    setTimeout(function() {
+        paris_nantes.addTo(mymap).snakeIn();
+    }, 2000);
+
+    setTimeout(function() {
+        nantes_marker.bounce(3).addTo(mymap);
+        nantes_marker.bindPopup("Nantes").openPopup();
+    }, 3000);
+
+    setTimeout(function() {
+        nantes_lyon.addTo(mymap).snakeIn();
+    }, 5000);
+
+    setTimeout(function() {
+        lyon_marker.bounce(3).addTo(mymap);
+        lyon_marker.bindPopup("Lyon").openPopup();
+    }, 6000);
+
+    setTimeout(function() {
+        lyon_vallon.addTo(mymap).snakeIn();
+    }, 8000);
+
+    setTimeout(function() {
+        vallon_marker.bounce(3).addTo(mymap);
+        vallon_marker.bindPopup("Vallon-Pont-D'ard").openPopup();
+    }, 9000);
+
+    setTimeout(function() {
+        vallon_montpellier.addTo(mymap).snakeIn();
+    }, 11000);
+
+    setTimeout(function() {
+        montpellier_marker.bounce(3).addTo(mymap);
+        montpellier_marker.bindPopup("Montpellier").openPopup();
+    }, 12000);
+
+    setTimeout(function() {
+        montpellier_bayonne.addTo(mymap).snakeIn();
+    }, 14000);
+
+    setTimeout(function() {
+        bayonne_marker.bounce(3).addTo(mymap);
+        bayonne_marker.bindPopup("Bayonne").openPopup();
+    }, 15000);
+
+    setTimeout(function() {
+        bayonne_chambery.addTo(mymap).snakeIn();
+    }, 17000);
+
+    setTimeout(function() {
+        chambery_marker.bounce(3).addTo(mymap);
+        chambery_marker.bindPopup("Chambéry").openPopup();
+    }, 18000);
+
+    setTimeout(function() {
+        chambery_paris.addTo(mymap).snakeIn();
+    }, 20000);
+
+    setTimeout(function() {
+        paris_marker.bindPopup("Paris").openPopup();
+    }, 21000);
+
+    setTimeout(function() {
+        paris_munich.addTo(mymap).snakeIn();
+    }, 23000);
+
+    setTimeout(function() {
+        munich_marker.bounce(3).addTo(mymap);
+        munich_marker.bindPopup("Munich").openPopup();
+    }, 24000);
+
+    setTimeout(function() {
+        munich_prague.addTo(mymap).snakeIn();
+    }, 26000);
+
+    setTimeout(function() {
+        prague_marker.bounce(3).addTo(mymap);
+        prague_marker.bindPopup("Prague").openPopup();
+    }, 27000);
+
+    setTimeout(function() {
+        prague_paris.addTo(mymap).snakeIn();
+    }, 29000);
+
+    </script>
+</body>
+
+</html>
