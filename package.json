@@ -1,0 +1,10 @@
+{
+  "name": "poc_leaflet",
+  "version": "1.0.0",
+  "main": "index.html",
+  "dependencies": {
+    "leaflet": "^0.7.7",
+    "leaflet.polyline.snakeanim": "^0.1.1",
+    "leaflet.smooth_marker_bouncing": "^1.1.4"
+  }
+}
