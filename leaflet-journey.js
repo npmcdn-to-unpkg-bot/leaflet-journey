@@ -1,13 +1,7 @@
 (function() {
     'use strict';
 
-    var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        minZoom: 1,
-        maxZoom: 18,
-    }).addTo(mymap);
-
+    /*
     // Cities
     // Paris
     var paris = [48.8588, 2.3470];
@@ -29,29 +23,83 @@
     var liberec = [50.7662, 15.0499];
     // Prague
     var prague = [50.0598, 14.4656];
+    */
 
-    // Lines
-    // Paris to Nantes
-    // Nantes to Lyon
-    // Lyon to Vallon-Pont-D'arc
-    // Vallon-Pont-D'arc to Montpellier
-    // Montpellier to Bayonne
-    // Bayonne to Chambéry
-    // Chambéry to Paris
-    // Paris to Munich
-    // Munich to Liberec
-    // Liberec to Prague
-    // Prague to Paris
-
-    // Markers
-    var paris_marker = L.marker(paris);
-    var nantes_marker = L.marker(nantes);
-    var lyon_marker = L.marker(lyon);
-    var vallon_marker = L.marker(vallon);
+    // Steps
+    var routes = [
+        {
+            // From Paris to Nantes
+            from: [48.8588, 2.3470],
+            to: [47.2383, -1.5603],
+            transportation: 'train'
+        }, {
+            // From Nantes to Lyon
+            from: [47.2383, -1.5603],
+            to: [45.7577, 4.8350],
+            transportation: 'train'
+        }, {
+            // From Lyon to Vallon-Pont-D'arc
+            from: [45.7577, 4.8350],
+            to: [44.3983, 4.4024],
+            transportation: 'bike'
+        }, {
+            // From Vallon-Pont-D'arc to Montpellier
+            from: [44.3983, 4.4024],
+            to: [43.6100, 3.8742],
+            transportation: 'bike'
+        }, {
+            // From Montpellier to Bayonne
+            from: [43.6100, 3.8742],
+            to: [43.4844, -1.4612],
+            transportation: 'bike'
+        }, {
+            // From Bayonne to Chambéry
+            from: [43.4844, -1.4612],
+            to: [45.5823, 5.9064],
+            transportation: 'train'
+        }, {
+            // From Chambéry to Paris
+            from: [45.5823, 5.9064],
+            to: [48.8588, 2.3470],
+            transportation: 'car'
+        }, {
+            // From Paris to Munich
+            from: [48.8588, 2.3470],
+            to: [48.1550, 11.5418],
+            transportation: 'plane'
+        }, {
+            // From Munich to Liberec
+            from: [48.1550, 11.5418],
+            to: [50.7662, 15.0499],
+            transportation: 'train'
+        }, {
+            // From Liberec to Prague
+            from: [50.7662, 15.0499],
+            to: [50.0598, 14.4656],
+            transportation: 'train'
+        }, {
+            // From Prague to Paris
+            from: [50.0598, 14.4656],
+            to: [48.8588, 2.3470],
+            transportation: 'plane'
+        }
+    ];
 
     // Icons
     var bikeIcon = L.icon({
         iconUrl: 'images/marker-bike.png',
+        iconSize: [45, 45],
+        iconAnchor: [24, 43],
+        shadowUrl: null
+    });
+    var carIcon = L.icon({
+        iconUrl: 'images/marker-car.png',
+        iconSize: [45, 45],
+        iconAnchor: [24, 43],
+        shadowUrl: null
+    });
+    var planeIcon = L.icon({
+        iconUrl: 'images/marker-plane.png',
         iconSize: [45, 45],
         iconAnchor: [24, 43],
         shadowUrl: null
@@ -63,58 +111,57 @@
         shadowUrl: null
     });
 
-    var line1 = L.polyline([paris, nantes]);
-    var animatedMarker1 = L.animatedMarker(line1.getLatLngs(), {
-        autoStart: false,
-        distance: 300,
-        interval: 1500,
-        zIndexOffset: 1000,
-        icon: trainIcon,
-        onEnd: function() {
-            // Remove marker from map
-            mymap.removeLayer(this);
-        }
-    });
+    var myIcon = function() {
+        return bikeIcon;
+    }
 
-    var line2 = L.polyline([nantes, lyon]);
-    var animatedMarker2 = L.animatedMarker(line2.getLatLngs(), {
-        autoStart: false,
-        distance: 300,
-        interval: 1500,
-        zIndexOffset: 1000,
-        icon: trainIcon,
-        onEnd: function() {
-            // Remove marker from map
-            mymap.removeLayer(this);
-        }
-    });
+    var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        minZoom: 1,
+        maxZoom: 18,
+    }).addTo(mymap);
 
-    var step1 = function() {
-        paris_marker.addTo(mymap);
-        animatedMarker1.addTo(mymap).start();
+    var line;
+    var generateLine = function(i) {
+        L.marker(routes[i].from).addTo(mymap);
+        line = L.polyline([routes[i].from, routes[i].to]);
+        var mmm = L.animatedMarker(line.getLatLngs(), {
+            autoStart: false,
+            distance: 300,
+            interval: 1500,
+            zIndexOffset: 1000,
+            onEnd: function() {
+                // Remove marker from map
+                mymap.removeLayer(this);
+            }
+        });
+        switch(routes[i].transportation) {
+            case 'bike' :
+                mmm.setIcon(bikeIcon);
+                break;
+            case 'car' :
+                mmm.setIcon(carIcon);
+                break;
+            case 'plane' :
+                mmm.setIcon(planeIcon);
+                break;
+            case 'train' :
+                mmm.setIcon(trainIcon);
+                break;
+        }
+        
+        mmm.addTo(mymap).start();
         setTimeout(function() {
-            line1.addTo(mymap).snakeIn()
+            line.addTo(mymap).snakeIn()
             .on('snakeend', function() {
-                step2();
+                if(i < routes.length - 1) {
+                    generateLine(i + 1);
+                }
             });
         }, 1500);
     }
 
-    var step2 = function() {
-        nantes_marker.addTo(mymap);
-        animatedMarker2.addTo(mymap).start();
-        setTimeout(function() {
-            line2.addTo(mymap).snakeIn()
-            .on('snakeend', function() {
-                step3();
-            });
-        }, 1500);
-    }
-
-    var step3 = function() {
-        lyon_marker.addTo(mymap);
-    }
-
-    step1();
+    generateLine(0);
 
 })();
