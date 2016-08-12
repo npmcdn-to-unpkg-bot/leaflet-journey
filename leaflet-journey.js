@@ -1,4 +1,7 @@
-var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
+(function() {
+    'use strict';
+
+    var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 1,
@@ -113,3 +116,5 @@ var mymap = L.map('mapid').setView([46.85, 2.3518], 6);
     }
 
     step1();
+
+})();
