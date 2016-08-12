@@ -10,6 +10,7 @@
     <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
     <script src="node_modules/leaflet.polyline.snakeanim/L.Polyline.SnakeAnim.js"></script>
     <script src="node_modules/leaflet.smooth_marker_bouncing/leaflet.smoothmarkerbouncing.js"></script>
+    <script src="http://rawgithub.com/openplans/Leaflet.AnimatedMarker/master/src/AnimatedMarker.js"></script>
     <style>
     #mapid {
         height: 625px;
@@ -27,27 +28,27 @@
         maxZoom: 18,
     }).addTo(mymap);
 
-    // Markers
+    // Cities
     // Paris
-    var paris_marker = L.marker([48.8588, 2.3470]);
+    var paris = [48.8588, 2.3470];
     // Nantes
-    var nantes_marker = L.marker([47.2383, -1.5603]);
+    var nantes = [47.2383, -1.5603];
     // Lyon
-    var lyon_marker = L.marker([45.7577, 4.8350]);
+    var lyon = [45.7577, 4.8350];
     // Vallon-Pont-D'arc
-    var vallon_marker = L.marker([44.3983, 4.4024]);
+    var vallon = [44.3983, 4.4024];
     // Montpellier
-    var montpellier_marker = L.marker([43.6100, 3.8742]);
+    var montpellier = [43.6100, 3.8742];
     // Bayonne
-    var bayonne_marker = L.marker([43.4844, -1.4612]);
+    var bayonne = [43.4844, -1.4612];
     // Chambéry
-    var chambery_marker = L.marker([45.5823, 5.9064]);
+    var chambery = [45.5823, 5.9064];
     // Munich
-    var munich_marker = L.marker([48.1550, 11.5418]);
+    var munich = [48.1550, 11.5418];
     // Liberec
-    var liberec_marker = L.marker([50.7662, 15.0499]);
+    var liberec = [50.7662, 15.0499];
     // Prague
-    var prague_marker = L.marker([50.0598, 14.4656]);
+    var prague = [50.0598, 14.4656];
 
     // Lines
     // Paris to Nantes
@@ -106,6 +107,7 @@
         [48.8588, 2.3470]
     ]);
 
+    /*
     setTimeout(function() {
         paris_marker.bounce(3).addTo(mymap);
         paris_marker.bindPopup("Paris").openPopup();
@@ -207,6 +209,73 @@
     setTimeout(function() {
         paris_marker.bindPopup("Paris").openPopup();
     }, 34000);
+    */
+
+    // Markers
+    var paris_marker = L.marker(paris);
+    var nantes_marker = L.marker(nantes);
+    var lyon_marker = L.marker(lyon);
+    var vallon_marker = L.marker(vallon);
+
+    // Path
+    var path = L.featureGroup([
+        // Paris to Nantes
+        // paris_marker,
+        L.polyline([paris, nantes]),
+        // nantes_marker,
+        // Nantes to Lyon
+        L.polyline([nantes, lyon]),
+        // lyon_marker,
+        // Lyon to Vallon-Pont-D'arc
+        L.polyline([lyon, vallon]),
+        // vallon_marker
+        // Vallon-Pont-D'arc to Montpellier
+        // Montpellier to Bayonne
+        // Bayonne to Chambéry
+    ], {
+        snakingPause: 0
+    });
+
+    // Icons
+    var bikeIcon = L.icon({
+        iconUrl: 'images/marker-bike.png',
+        iconSize: [45, 45],
+        iconAnchor: [24, 43],
+        shadowUrl: null
+    });
+    var trainIcon = L.icon({
+        iconUrl: 'images/marker-train.png',
+        iconSize: [45, 45],
+        iconAnchor: [24, 43],
+        shadowUrl: null
+    });
+
+    // Add Paris marker to map
+    paris_marker.addTo(mymap);
+
+    var line = L.polyline([paris, nantes]);
+    var animatedMarker = L.animatedMarker(line.getLatLngs(), {
+        autoStart: false,
+        distance: 300,
+        interval: 1000,
+        icon: trainIcon,
+        onEnd: function() {
+            // Remove marker from map
+        },
+        zIndexOffset: 1000
+    });
+    animatedMarker.addTo(mymap);
+
+    setTimeout(function() {
+        animatedMarker.start();
+    }, 0);
+
+    setTimeout(function() {
+        line.addTo(mymap).snakeIn()
+        .on('snakeend', function() {
+            nantes_marker.addTo(mymap);
+        });
+    }, 1100);
 
     </script>
 </body>
