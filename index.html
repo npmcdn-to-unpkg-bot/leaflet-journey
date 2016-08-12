@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>A Leaflet map!</title>
+    <title>A leaflet journey</title>
     <!-- <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" /> -->
     <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
     <!-- <script src="node_modules/leaflet/dist/leaflet.js"></script> -->
@@ -45,7 +45,7 @@
     // Munich
     var munich_marker = L.marker([48.1550, 11.5418]);
     // Liberec
-    var munich_marker = L.marker([50.7662, 15.0499]);
+    var liberec_marker = L.marker([50.7662, 15.0499]);
     // Prague
     var prague_marker = L.marker([50.0598, 14.4656]);
 
@@ -90,9 +90,14 @@
         [48.8588, 2.3470],
         [48.1550, 11.5418]
     ]);
-    // Munich to Prague
-    var munich_prague = L.polygon([
+    // Munich to Liberec
+    var munich_liberec = L.polygon([
         [48.1550, 11.5418],
+        [50.7662, 15.0499]
+    ]);
+    // Liberec to Prague
+    var liberec_prague = L.polygon([
+        [50.7662, 15.0499],
         [50.0598, 14.4656]
     ]);
     // Prague to Paris
@@ -130,7 +135,7 @@
 
     setTimeout(function() {
         vallon_marker.bounce(3).addTo(mymap);
-        vallon_marker.bindPopup("Vallon-Pont-D'ard").openPopup();
+        vallon_marker.bindPopup("Vallon-Pont-D'arc").openPopup();
     }, 9000);
 
     setTimeout(function() {
@@ -178,17 +183,30 @@
     }, 24000);
 
     setTimeout(function() {
-        munich_prague.addTo(mymap).snakeIn();
+        munich_liberec.addTo(mymap).snakeIn();
     }, 26000);
+
+    setTimeout(function() {
+        liberec_marker.bounce(3).addTo(mymap);
+        liberec_marker.bindPopup("Liberec").openPopup();
+    }, 27000);
+
+    setTimeout(function() {
+        liberec_prague.addTo(mymap).snakeIn();
+    }, 29000);
 
     setTimeout(function() {
         prague_marker.bounce(3).addTo(mymap);
         prague_marker.bindPopup("Prague").openPopup();
-    }, 27000);
+    }, 31000);
 
     setTimeout(function() {
         prague_paris.addTo(mymap).snakeIn();
-    }, 29000);
+    }, 32000);
+
+    setTimeout(function() {
+        paris_marker.bindPopup("Paris").openPopup();
+    }, 34000);
 
     </script>
 </body>
