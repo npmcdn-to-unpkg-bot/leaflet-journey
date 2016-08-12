@@ -1,0 +1,9 @@
+#
+# Mac files
+# 
+.DS_Store
+
+#
+# Node dependency directory
+#
+node_modules
