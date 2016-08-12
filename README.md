@@ -1,2 +1,2 @@
 # leaflet-journey
-Trace a holiday journey
+Track a journey
